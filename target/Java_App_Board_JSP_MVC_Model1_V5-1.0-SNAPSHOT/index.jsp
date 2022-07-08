@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="=EUC-KR">
     <title>JSP - Hello World</title>
 </head>
 <body>
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<script>
+    location.href="login.jsp"
+</script>
 </body>
 </html>
