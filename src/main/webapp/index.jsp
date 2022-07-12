@@ -10,7 +10,7 @@
 </h1>
 <br/>
 <script>
-    location.href="login.jsp"
+    location.href="login/login.jsp"
 </script>
 </body>
 </html>
