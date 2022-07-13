@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="board.Board" %>
-<%@ page import="board.BoardDAO" %>
-<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +8,6 @@
     <meta name="viewport" content="width=device-width", initial-scale="1" >  <!-- 반응형 웹에 사용하는 메타태그 -->
     <link rel="stylesheet" href="../css/bootstrap.css"> <!-- 참조  -->
     <title>JSP 게시판 웹 사이트</title>
-    <style type = "text/css">
-        a, a:hover
-        {
-            color: #000000;
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
 <%
@@ -25,10 +15,6 @@
     if (session.getAttribute("id") != null)
     {
         userID = (String)session.getAttribute("id");
-    }
-    int pageNumber = 1;
-    if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     }
 %>
 <nav class ="navbar navbar-default">
@@ -84,49 +70,25 @@
 </nav>
 <div class="container">
     <div class="row">
+        <form method="post" action="writeAction.jsp">
         <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
             <thead>
             <tr>
-                <th style="background-color:#eeeeee; text-align:center;">번호</th>
-                <th style="background-color:#eeeeee; text-align:center;">제목</th>
-                <th style="background-color:#eeeeee; text-align:center;">작성자</th>
-                <th style="background-color:#eeeeee; text-align:center;">등록일시</th>
-                <th style="background-color:#eeeeee; text-align:center;">수정일시</th>
+                <th colspan="2" style="background-color:#eeeeee; text-align:center;">게시판 글쓰기 양식</th>
             </tr>
             </thead>
             <tbody>
-            <%
-                BoardDAO boardDAO = new BoardDAO();
-                ArrayList<Board> list = boardDAO.getList(pageNumber);
-                for(int i = 0; i < list.size(); i++)
-                {
-            %>
-
             <tr>
-                <td><%=list.get(i).getBoardNo() %></td>
-                <td><a href="view.jsp?boardNo=<%=list.get(i).getBoardNo()%>"><%=list.get(i).getTitle() %></a></td>
-                <td><%=list.get(i).getName() %></td>
-                <td><%=list.get(i).getCreatedTs().substring(0,11) + list.get(i).getCreatedTs().substring(11, 13) + "시"
-                        + list.get(i).getCreatedTs().substring(14,16) + "분" %></td>
-                <td><%=list.get(i).getUpdatedTs()%></td>
+                <td><input type="text" class="form-control" placeholder="글 제목"  name="title" maxlength="50" ></td>
             </tr>
-            <%
-                }
-            %>
+            <tr>
+                <td><textarea class="form-control" placeholder="글 내용"  name="content" maxlength="2048" style="height:350px" ></textarea></td>
+            </tr>
             </tbody>
+
         </table>
-        <%
-            if(pageNumber != 1) {
-        %>
-        <a href="board.jsp?pageNumber=<%=pageNumber - 1 %>" class="btn btn-success btn-arrow-left">이전</a>
-        <%
-            } if (boardDAO.nextPage(pageNumber + 1)) {
-        %>
-        <a href="board.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arrow-left">다음</a>
-        <%
-            }
-        %>
-        <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+        <input type="submit"  class="btn btn-primary pull-right" value="게시글 작성하기">
+        </form>
     </div>
 </div>
 

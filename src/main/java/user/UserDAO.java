@@ -12,7 +12,7 @@ public class UserDAO {
 
     public UserDAO() {
         try {
-            String dbUrl = "jdbc:mysql://localhost:3306/board";
+            String dbUrl = "jdbc:mysql://localhost:3306/Board";
             String dbId = "root";
             String dbPasswowrd = "26905031";
 

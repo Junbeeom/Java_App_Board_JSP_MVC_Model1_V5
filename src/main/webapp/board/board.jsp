@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="board.Board" %>
+<%@ page import="board.BoardDAO" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +11,13 @@
     <meta name="viewport" content="width=device-width", initial-scale="1" >  <!-- 반응형 웹에 사용하는 메타태그 -->
     <link rel="stylesheet" href="../css/bootstrap.css"> <!-- 참조  -->
     <title>JSP 게시판 웹 사이트</title>
+    <style type = "text/css">
+        a, a:hover
+        {
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <%
@@ -15,6 +25,10 @@
     if (session.getAttribute("id") != null)
     {
         userID = (String)session.getAttribute("id");
+    }
+    int pageNumber = 1;
+    if (request.getParameter("pageNumber") != null) {
+        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     }
 %>
 <nav class ="navbar navbar-default">
@@ -81,16 +95,37 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>안녕하세요</td>
-                <td>홍길동</td>
-                <td>2017-05-04</td>
-                <td>2017-05-02</td>
-            </tr>
-            </tbody>
+            <%
+                BoardDAO boardDAO = new BoardDAO();
+                ArrayList<Board> list = boardDAO.getList(pageNumber);
+                for(int i = 0; i < list.size(); i++)
+                {
+            %>
 
+            <tr>
+                <td><%=list.get(i).getBoardNo() %></td>
+                <td><a href="view.jsp?boardNo=<%=list.get(i).getBoardNo()%>"><%=list.get(i).getTitle() %></a></td>
+                <td><%=list.get(i).getName() %></td>
+                <td><%=list.get(i).getCreatedTs().substring(0,11) + list.get(i).getCreatedTs().substring(11, 13) + "시"
+                        + list.get(i).getCreatedTs().substring(14,16) + "분" %></td>
+                <td><%=list.get(i).getUpdatedTs()%></td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
         </table>
+        <%
+            if(pageNumber != 1) {
+        %>
+        <a href="board.jsp?pageNumber=<%=pageNumber - 1 %>" class="btn btn-success btn-arrow-left">이전</a>
+        <%
+            } if (boardDAO.nextPage(pageNumber + 1)) {
+        %>
+        <a href="board.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arrow-left">다음</a>
+        <%
+            }
+        %>
         <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
     </div>
 </div>

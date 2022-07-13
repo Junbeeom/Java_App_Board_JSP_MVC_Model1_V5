@@ -3,7 +3,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="board.Board" %>
 <%@ page import="board.BoardDAO" %>
-<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +10,6 @@
     <meta name="viewport" content="width=device-width", initial-scale="1" >  <!-- 반응형 웹에 사용하는 메타태그 -->
     <link rel="stylesheet" href="../css/bootstrap.css"> <!-- 참조  -->
     <title>JSP 게시판 웹 사이트</title>
-    <style type = "text/css">
-        a, a:hover
-        {
-            color: #000000;
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
 <%
@@ -26,10 +18,19 @@
     {
         userID = (String)session.getAttribute("id");
     }
-    int pageNumber = 1;
-    if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+    int boardNo = 0;
+    if (request.getParameter("boardNo") != null) {
+        boardNo = Integer.parseInt(request.getParameter("boardNo"));
     }
+    if (boardNo == 0) {
+        PrintWriter script = response.getWriter();
+        script.println("<script>");
+        script.println("alert('유효하지 않은 글입니다')");
+        script.println("location.href = 'board.jsp'");
+        script.println("</script>");
+    }
+    Board board = new BoardDAO().getBoard(boardNo);
+
 %>
 <nav class ="navbar navbar-default">
     <div class="navbar-header"> <!-- 홈페이지의 로고 -->
@@ -84,49 +85,44 @@
 </nav>
 <div class="container">
     <div class="row">
-        <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
-            <thead>
-            <tr>
-                <th style="background-color:#eeeeee; text-align:center;">번호</th>
-                <th style="background-color:#eeeeee; text-align:center;">제목</th>
-                <th style="background-color:#eeeeee; text-align:center;">작성자</th>
-                <th style="background-color:#eeeeee; text-align:center;">등록일시</th>
-                <th style="background-color:#eeeeee; text-align:center;">수정일시</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                BoardDAO boardDAO = new BoardDAO();
-                ArrayList<Board> list = boardDAO.getList(pageNumber);
-                for(int i = 0; i < list.size(); i++)
-                {
-            %>
+            <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+                <thead>
+                <tr>
+                    <th colspan="3" style="background-color:#eeeeee; text-align:center;">게시판 글 보기</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="width:20%;">글 제목</td>
+                    <td colspan="2"><%= board.getTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>") %></td>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td colspan="2"><%= board.getName().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>") %></td>
+                </tr>
+                <tr>
+                    <td>작성일자</td>
+                    <td colspan="2"><%= board.getCreatedTs().substring(0,11) + board.getCreatedTs().substring(11, 13) + "시"
+                            + board.getCreatedTs().substring(14,16) + "분"  %></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td colspan="2" style="min-height:200px; text-align:left;">
+                        <!-- 특수문자를 제대로 출력하기위해 & 악성스크립트를 방지하기위해 -->
+                        <%= board.getContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>") %></td>
+                </tr>
+                </tbody>
+            </table>
+        <a href="board.jsp" class="btn btn-primary">목록</a>
+        <%
+            if(userID != null && userID.equals(board.getName())) {
 
-            <tr>
-                <td><%=list.get(i).getBoardNo() %></td>
-                <td><a href="view.jsp?boardNo=<%=list.get(i).getBoardNo()%>"><%=list.get(i).getTitle() %></a></td>
-                <td><%=list.get(i).getName() %></td>
-                <td><%=list.get(i).getCreatedTs().substring(0,11) + list.get(i).getCreatedTs().substring(11, 13) + "시"
-                        + list.get(i).getCreatedTs().substring(14,16) + "분" %></td>
-                <td><%=list.get(i).getUpdatedTs()%></td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-        <%
-            if(pageNumber != 1) {
         %>
-        <a href="board.jsp?pageNumber=<%=pageNumber - 1 %>" class="btn btn-success btn-arrow-left">이전</a>
-        <%
-            } if (boardDAO.nextPage(pageNumber + 1)) {
-        %>
-        <a href="board.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arrow-left">다음</a>
+        <a href="update.jsp?boardNo=<%=boardNo %>" class="btn btn-primary">수정</a>
+        <a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?boardNo=<%=boardNo %>" class="btn btn-primary">삭제</a>
         <%
             }
         %>
-        <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
     </div>
 </div>
 
