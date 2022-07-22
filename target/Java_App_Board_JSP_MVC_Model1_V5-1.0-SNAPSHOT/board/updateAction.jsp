@@ -3,8 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="board.BoardDAO" %>
-<%@ page import="board.Board" %>
-<%@ page import="java.io.PrintWriter" %> <!-- 자바스크립트 문장사용 -->
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.sql.ResultSet" %>
+<!-- 자바스크립트 문장사용 -->
 <% request.setCharacterEncoding("UTF-8"); %> <!-- 건너오는 모든 파일을 UTF-8로 -->
 <!DOCTYPE html>
 <html>
@@ -37,39 +38,42 @@
         script.println("location.href = 'board.jsp'");
         script.println("</script>");
     }
-    Board board = new BoardDAO().getBoard(boardNo);
-    if (!userID.equals(board.getName())) {
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("alert('권한이 없습니다.')");
-        script.println("location.href = 'board.jsp'");
-        script.println("</script>");
-    } else {
-        if (request.getParameter("title") == null || request.getParameter("content") == null
-                || request.getParameter("title").equals("") || request.getParameter("content").equals("")) {
+    ResultSet resultSet =  null;
+    BoardDAO boardDAO = new BoardDAO();
+    resultSet = boardDAO.getBoard(boardNo);
+    while (resultSet.next()) {
+        if (!userID.equals(resultSet.getString("name"))) {
             PrintWriter script = response.getWriter();
             script.println("<script>");
-            script.println("alert('입력이 안된 사항이 있습니다.')");
-            script.println("history.back()");
+            script.println("alert('권한이 없습니다.')");
+            script.println("location.href = 'board.jsp'");
             script.println("</script>");
         } else {
-            BoardDAO boardDAO = new BoardDAO();
-            int result = boardDAO.update(boardNo, request.getParameter("title"), request.getParameter("content"));
-            if (result == -1) {
-                PrintWriter script = response.getWriter(); //하나의 스크립트 문장을 넣을 수 있도록.
+            if (request.getParameter("title") == null || request.getParameter("content") == null
+                || request.getParameter("title").equals("") || request.getParameter("content").equals("")) {
+                PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('글 수정에 실패했습니다.')");
+                script.println("alert('입력이 안된 사항이 있습니다.')");
                 script.println("history.back()");
                 script.println("</script>");
             } else {
-                PrintWriter script = response.getWriter();
-                script.println("<script>");
-                script.println("location.href= 'board.jsp'");
-                script.println("</script>");
+                int result = boardDAO.update(boardNo, request.getParameter("title"), request.getParameter("content"));
+                if (result == -1) {
+                    PrintWriter script = response.getWriter(); //하나의 스크립트 문장을 넣을 수 있도록.
+                    script.println("<script>");
+                    script.println("alert('글 수정에 실패했습니다.')");
+                    script.println("history.back()");
+                    script.println("</script>");
+                } else {
+                    PrintWriter script = response.getWriter();
+                    script.println("<script>");
+                    script.println("location.href= 'board.jsp'");
+                    script.println("</script>");
+                }
             }
-
         }
     }
+
 %>
 </body>
 </html>

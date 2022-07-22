@@ -1,5 +1,7 @@
 package user;
 
+import common.Common;
+
 import java.io.StringReader;
 import java.sql.*;
 import java.text.DateFormat;
@@ -24,6 +26,7 @@ public class UserDAO {
     }
 
     public int login(String userId, String userPassword) {
+        Common common = new Common();
         String SQL = "SELECT pw FROM user WHERE id = ?";
 
         try {
@@ -31,7 +34,7 @@ public class UserDAO {
             pstmt.setString(1, userId);
             rs = pstmt.executeQuery();
             if(rs.next()) {
-                if(rs.getString(1).equals(userPassword)) {
+                if(rs.getString(1).equals(common.SHA256Encrypt(userPassword))) {
                     return 1;//로그인 성공
                 } else {
                     return 0;//비밀번호 불일치
@@ -45,6 +48,8 @@ public class UserDAO {
     }
 
     public int join(User user) {
+        Common common = new Common();
+
         String SQL = "INSERT INTO user(id, pw, name, birthdate, sex, phone) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,7 +57,7 @@ public class UserDAO {
 
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, user.getId());
-            pstmt.setString(2, user.getPw());
+            pstmt.setString(2, common.SHA256Encrypt(user.getPw()));
             pstmt.setString(3, user.getName());
             pstmt.setDate(4, date);
             pstmt.setString(5, user.getSex());

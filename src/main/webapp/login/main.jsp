@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +11,7 @@
 <body>
 <%
     String userID = null; // 로그인이 된 사람들은 로그인정보를 담을 수 있도록한다
-    if (session.getAttribute("id") != null)
-    {
+    if (session.getAttribute("id") != null) {
         userID = (String)session.getAttribute("id");
     }
 %>
@@ -35,8 +33,7 @@
         </ul>
         <%
             // 접속하기는 로그인이 되어있지 않은 경우만 나오게한다
-            if(userID == null)
-            {
+            if(userID == null) {
         %>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">

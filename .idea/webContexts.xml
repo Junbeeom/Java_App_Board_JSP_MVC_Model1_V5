@@ -3,7 +3,11 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/board/updateAction.jsp" value="file://$PROJECT_DIR$/src/main/webapp/board" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/board/writeAction.jsp" value="file://$PROJECT_DIR$/src/main/webapp/board" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/login/join.jsp" value="file://$PROJECT_DIR$/src/main/webapp/login" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/login/joinAction.jsp" value="file://$PROJECT_DIR$/src/main/webapp/login" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/login/overlapCheck.jsp" value="file://$PROJECT_DIR$/src/main/webapp/login" />
       </map>
     </option>
   </component>

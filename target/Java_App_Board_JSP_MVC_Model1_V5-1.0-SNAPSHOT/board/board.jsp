@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="board.Board" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.ResultSet" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,18 +97,20 @@
             <tbody>
             <%
                 BoardDAO boardDAO = new BoardDAO();
-                ArrayList<Board> list = boardDAO.getList(pageNumber);
-                for(int i = 0; i < list.size(); i++)
+                ResultSet resultSet = null;
+
+                resultSet = boardDAO.getList(pageNumber);
+                while (resultSet.next())
                 {
             %>
 
             <tr>
-                <td><%=list.get(i).getBoardNo() %></td>
-                <td><a href="view.jsp?boardNo=<%=list.get(i).getBoardNo()%>"><%=list.get(i).getTitle() %></a></td>
-                <td><%=list.get(i).getName() %></td>
-                <td><%=list.get(i).getCreatedTs().substring(0,11) + list.get(i).getCreatedTs().substring(11, 13) + "시"
-                        + list.get(i).getCreatedTs().substring(14,16) + "분" %></td>
-                <td><%=list.get(i).getUpdatedTs()%></td>
+                <td><%=resultSet.getInt("board_no") %></td>
+                <td><a href="view.jsp?boardNo=<%=resultSet.getInt("board_no")%>"><%=resultSet.getString("title") %></a></td>
+                <td><%=resultSet.getString("name") %></td>
+                <td><%=resultSet.getString("created_ts").substring(0,11) + resultSet.getString("created_ts").substring(11, 13) + "시"
+                        + resultSet.getString("created_ts").substring(14,16) + "분" %></td>
+                <td><%=resultSet.getString("updated_ts")%></td>
             </tr>
             <%
                 }
@@ -122,7 +124,7 @@
         <%
             } if (boardDAO.nextPage(pageNumber + 1)) {
         %>
-        <a href="board.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arrow-left">다음</a>
+        <a href="board.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arrow-rigth">다음</a>
         <%
             }
         %>

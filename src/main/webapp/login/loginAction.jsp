@@ -15,12 +15,10 @@
 <body>
 <%
     String userID = null;
-    if(session.getAttribute("id") != null )
-    {
+    if(session.getAttribute("id") != null ) {
         userID = (String) session.getAttribute("pw");
     }
-    if(userID != null)
-    {
+    if(userID != null) {
         PrintWriter script = response.getWriter();
         script.println("<script>");
         script.println("alert('이미 로그인이 되어있습니다.')");
