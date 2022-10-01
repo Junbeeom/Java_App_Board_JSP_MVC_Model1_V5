@@ -1,6 +1,5 @@
 package user;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class User {
@@ -8,16 +7,7 @@ public class User {
     private String id;
     private String pw;
     private String name;
-
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    private String birthdate; //db에는 datetime type
+    private String birthdate;
     private String sex;
     private String phone;
     private Timestamp createdTs;
@@ -41,6 +31,9 @@ public class User {
         return name;
     }
 
+    public String getBirthdate() {
+        return birthdate;
+    }
 
     public String getSex() {
         return sex;
@@ -82,6 +75,9 @@ public class User {
         this.name = name;
     }
 
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
+    }
 
     public void setSex(String sex) {
         this.sex = sex;

@@ -17,17 +17,17 @@ public class UserDAO {
             String dbUrl = "jdbc:mysql://localhost:3306/Board";
             String dbId = "root";
             String dbPasswowrd = "26905031";
-
             Class.forName("com.mysql.jdbc.Driver");
+
             conn = DriverManager.getConnection(dbUrl, dbId, dbPasswowrd);
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    public int login(String userId, String userPassword) {
+    public int login(String userId, String userPassword) throws SQLException{
         Common common = new Common();
-        String SQL = "SELECT pw FROM user WHERE id = ?";
+        String SQL = "SELECT pw FROM member WHERE id = ?";
 
         try {
             pstmt = conn.prepareStatement(SQL);
@@ -35,22 +35,33 @@ public class UserDAO {
             rs = pstmt.executeQuery();
             if(rs.next()) {
                 if(rs.getString(1).equals(common.SHA256Encrypt(userPassword))) {
-                    return 1;//로그인 성공
+                    //로그인 성공
+                    return 1;
                 } else {
-                    return 0;//비밀번호 불일치
+                    //비밀번호 불일치
+                    return 0;
                 }
             }
-            return -1; //아이디 없음
+            //아이디 없음
+            return -1;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(pstmt != null) {
+                pstmt.close();
+            }
+            if(conn != null) {
+                conn.close();
+            }
         }
-        return -2;//데이터베이스 오류
+        //데이터베이스 오류
+        return -2;
     }
 
-    public int join(User user) {
+    public int join(User user) throws SQLException{
         Common common = new Common();
 
-        String SQL = "INSERT INTO user(id, pw, name, birthdate, sex, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO member(id, pw, name, birthdate, sex, phone) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date(formatter.parse(user.getBirthdate()).getTime());
@@ -66,10 +77,15 @@ public class UserDAO {
             return pstmt.executeUpdate();
         } catch(Exception e) {
             e.printStackTrace();
+        } finally {
+            if(pstmt != null) {
+                pstmt.close();
+            }
+            if(conn != null) {
+                conn.close();
+            }
         }
-        return -1; // 데이터베이스 오류
+        // 데이터베이스 오류
+        return -1;
     }
-
-
-
 }

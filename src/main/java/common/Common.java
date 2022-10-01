@@ -18,7 +18,7 @@ public class Common {
 
 
     public int userValidation(String type, String value) {
-        switch (type) {
+        switch(type) {
             case USER_ID :
                 //이메일 형식 정규식
                 String id = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
@@ -68,25 +68,25 @@ public class Common {
     }
 
     public int boardValidation(String type, String value) {
-        switch (type) {
+        switch(type) {
             case BOARD_NAME:
                 //이름 유효성 체크
                 String isKoreanCheck = "^[가-힣]*$";
                 String isAlaphaCheck = "^[a-zA-Z]*$";
 
-                if (!(value.matches(isKoreanCheck) || value.matches(isAlaphaCheck))) {
+                if(!(value.matches(isKoreanCheck) || value.matches(isAlaphaCheck))) {
                     return 0;
                 }
 
             case BOARD_TITLE:
                 //제목 유효성 체크
-                if (value.length() >= 12) {
+                if(value.length() >= 12) {
                     return 0;
                 }
 
             case BOARD_CONTENT:
                 //내용 유효성 체크
-                if (value.length() >= 200) {
+                if(value.length() >= 200) {
                     return 0;
                 }
             default:
@@ -104,12 +104,12 @@ public class Common {
     //0을 허용하는 체크
     class isEmpty<T> {
         public boolean isEmptyValue(T value) {
-            if (value.equals(0) || value.equals('0')) {
+            if(value.equals(0) || value.equals('0')) {
                 return false;
-            } else if (value.equals(true) || value.equals(false)) {
+            } else if(value.equals(true) || value.equals(false)) {
                 return (boolean) value;
-            } else if (value != null && value.equals(' ') == false) {
-                if ((value instanceof String && ((String) value).length() > 0) || (value instanceof Number) || (value instanceof Method)) {
+            } else if(value != null && value.equals(' ') == false) {
+                if((value instanceof String && ((String) value).length() > 0) || (value instanceof Number) || (value instanceof Method)) {
                     return false;
                 } else {
                     return true;
@@ -121,12 +121,12 @@ public class Common {
 
         //0도 허용하지 않는 체크
         public boolean isEmptyValue2(T value) {
-            if (value.equals(0) || value.equals('0')) {
+            if(value.equals(0) || value.equals('0')) {
                 return true;
             } else if (value.equals(true) || value.equals(false)) {
                 return (boolean) value;
             } else if (value != null && value.equals(' ') == false) {
-                if ((value instanceof String && ((String) value).length() > 0) || (value instanceof Number)  || (value instanceof Method)) {
+                if((value instanceof String && ((String) value).length() > 0) || (value instanceof Number)  || (value instanceof Method)) {
                     return false;
                 } else {
                     return true;
@@ -156,6 +156,12 @@ public class Common {
             e.printStackTrace();
         }
         return hexString.toString().toUpperCase();
+    }
+
+    public String xss(String value) {
+        value = value.replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>");
+
+        return  value;
     }
 
 
