@@ -2,13 +2,11 @@
 
 <%@ page import="board.BoardDAO" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page import="board.Board" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 <%
     String userID = null;
-    // 로그인 된 사람은 회원가입페이지에 들어갈수 없다
     if(session.getAttribute("id") != null ) {
         userID = (String) session.getAttribute("id");
     }

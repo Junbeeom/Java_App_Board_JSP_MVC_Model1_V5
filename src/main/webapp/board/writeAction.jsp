@@ -2,16 +2,11 @@
 
 <%@ page import="board.BoardDAO" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.io.File" %>
-<%@ page import="java.util.Enumeration" %>
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
-<%@ page import="com.oreilly.servlet.MultipartRequest"%>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <%
     String userID = null;
-    // 로그인 된 사람은 회원가입페이지에 들어갈수 없다.
     if(session.getAttribute("id") != null ) {
         userID = (String) session.getAttribute("id");
     }
@@ -33,7 +28,6 @@
             BoardDAO boardDAO = new BoardDAO();
             int result = boardDAO.write(request.getParameter("title"),request.getParameter("content"), userID);
             if(result == -1) {
-                //하나의 스크립트 문장을 넣을 수 있도록.
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('글쓰기에 실패했습니다.')");

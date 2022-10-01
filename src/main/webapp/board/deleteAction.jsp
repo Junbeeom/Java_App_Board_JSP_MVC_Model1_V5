@@ -2,7 +2,6 @@
 
 <%@ page import="board.BoardDAO" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page import="board.Board" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>

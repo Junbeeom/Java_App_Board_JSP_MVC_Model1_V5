@@ -61,9 +61,7 @@
             </tr>
             <tr>
                 <td>내용</td>
-                <td colspan="2" style="min-height:200px; text-align:left;">
-                    <!-- 특수문자를 제대로 출력하기위해 & 악성스크립트를 방지하기위해 -->
-                    <%=common.xss(board.getContent())%></td>
+                <td colspan="2" style="min-height:200px; text-align:left;"><%=common.xss(board.getContent())%></td>
             </tr>
             </tbody>
         </table>

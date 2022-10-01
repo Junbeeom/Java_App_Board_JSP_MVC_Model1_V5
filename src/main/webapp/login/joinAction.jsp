@@ -16,7 +16,6 @@
 
 <%
     String userID = null;
-    // 로그인 된 사람은 회원가입페이지에 들어갈수 없다
     if(session.getAttribute("id") != null ) {
         userID = (String) session.getAttribute("id");
     }
@@ -80,7 +79,7 @@
 
         int result = userDAO.join(user);
         if(result == -1){
-            PrintWriter script = response.getWriter(); //하나의 스크립트 문장을 넣을 수 있도록.
+            PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('이미 존재하는 아이디 입니다..')");
             script.println("history.back()");

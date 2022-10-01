@@ -2,7 +2,6 @@
 
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="board.BoardDAO" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page import="board.Board" %>
 
 <!DOCTYPE html>
@@ -43,11 +42,9 @@
         script.println("location.href = 'board.jsp'");
         script.println("</script>");
     }
-
 %>
 <div class="container">
     <div class="row">
-        <!-- POST : body -->
         <form id="updateForm" name="updateForm" method="post" action="updateAction.jsp?boardNo=<%= boardNo %>">
             <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
                 <thead>
@@ -57,10 +54,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" value="<%=byNo.getTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>")%>" ></td>
+                    <td><input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" value="<%=byNo.getTitle()%>" ></td>
                 </tr>
                 <tr>
-                    <td><textarea class="form-control" placeholder="글 내용" id="content" name="content" maxlength="2048" style="height:350px" ><%= byNo.getContent().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n","<br>") %></textarea></td>
+                    <td><textarea class="form-control" placeholder="글 내용" id="content" name="content" maxlength="2048" style="height:350px" ><%=byNo.getContent()%></textarea></td>
                 </tr>
                 <tr>
                     <td><input type="file" name="fileName"></td>
