@@ -59,9 +59,6 @@
                 <tr>
                     <td><textarea class="form-control" placeholder="글 내용" id="content" name="content" maxlength="2048" style="height:350px" ><%=byNo.getContent()%></textarea></td>
                 </tr>
-                <tr>
-                    <td><input type="file" name="fileName"></td>
-                </tr>
                 </tbody>
             </table>
             <input type="submit"  class="btn btn-primary pull-right" value="수정하기">

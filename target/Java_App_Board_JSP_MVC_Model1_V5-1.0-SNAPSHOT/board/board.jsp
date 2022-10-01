@@ -57,8 +57,6 @@
                     list = boardDAO.findAll();
                 }
 
-
-
                 for(int i = 0; i < list.size(); i++) {
             %>
             <tr>
