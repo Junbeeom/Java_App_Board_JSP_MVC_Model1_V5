@@ -27,6 +27,11 @@
 ### 4.1 로그인 (Login page) 
 <img width="1105" alt="스크린샷 2022-10-01 오후 2 17 26" src="https://user-images.githubusercontent.com/103010985/193393815-cdd7b9c7-8e28-4c4d-9560-825448cf3730.png">
 
+### 4.2 회원가입 (id 중복 확인)
+<img width="1091" alt="스크린샷 2022-10-01 오후 2 38 47" src="https://user-images.githubusercontent.com/103010985/193394439-5743c283-91e8-4fb3-ade1-737113b86814.png">
+<img width="1086" alt="스크린샷 2022-10-01 오후 2 39 04" src="https://user-images.githubusercontent.com/103010985/193394449-dc8d1b15-bd32-477a-aaea-37e3d397ecfd.png">
+
+
 ### 4.2 게시판 (board page) 
 <img width="1099" alt="스크린샷 2022-10-01 오후 2 21 47" src="https://user-images.githubusercontent.com/103010985/193393947-92d5eb51-a4e1-4904-9c9f-40e80a7be1d5.png">
 
@@ -48,12 +53,13 @@
 <img width="1097" alt="스크린샷 2022-10-01 오후 2 32 31" src="https://user-images.githubusercontent.com/103010985/193394253-8ac5b603-8f0b-4ac5-9f71-210b2574f8bd.png">
 
 ### 4.5 수정하기
-<img width="1096" alt="스크린샷 2022-10-01 오후 2 33 22" src="https://user-images.githubusercontent.com/103010985/193394280-f8361b2e-bf17-447b-871b-b5dc1ed05b21.png">
+<img width="1095" alt="스크린샷 2022-10-01 오후 2 37 12" src="https://user-images.githubusercontent.com/103010985/193394399-b37edeef-bede-4e00-a532-7c954c49bb8b.png">
 
 
 ### 4.5 board Package
 
 <img width="333" alt="스크린샷 2022-09-28 오후 2 50 47" src="https://user-images.githubusercontent.com/103010985/192698248-8e23b5f0-ee16-4bec-9aec-0894b71d5022.png">
+
 
 
 ### 4.6 database Package
