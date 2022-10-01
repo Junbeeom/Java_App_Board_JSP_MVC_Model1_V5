@@ -6,11 +6,12 @@
 
 ### 1.2 목표 및 의의
 #### 1.2.1 Java_App_Board_JSP_MVC_Model1_V5
-- MVC1 pattern의 이해 
-- Session에 대한 이해
-- 비동기 JavaScript ajax를 사용한 id 중복 check
-- 회원가입시 input 값 유효성 검사
-- 
+- MVC1 pattern의 이해 및 적용
+- 모듈화를 통한 html 구조 이해
+- Session에 대한 이해 및 적용
+- 회원가입시 input값 유효성 검사
+- 비동기 JavaScript ajax를 사용한 id 중복 check 구현
+- 단방향 암호화인 SHA-256 알고리즘을 이용한 PassWord 암호화
 
 
 # 2. 개발 환경
@@ -18,23 +19,36 @@
 
 
 # 3. 사용기술
-- Java 11
+- Java 11, JavaScript, JSP, HTML 5
 
 
 # 4.프로젝트 설계
 
-### 4.1 main View
-<img width="626" alt="스크린샷 2022-09-28 오후 2 21 00" src="https://user-images.githubusercontent.com/103010985/192696703-94fd0401-3b6b-4493-b887-6d729bce5abc.png">
+### 4.1 로그인 (Login page) 
+<img width="1105" alt="스크린샷 2022-10-01 오후 2 17 26" src="https://user-images.githubusercontent.com/103010985/193393815-cdd7b9c7-8e28-4c4d-9560-825448cf3730.png">
 
-### 4.2 등록하기
-<img width="479" alt="스크린샷 2022-09-28 오후 2 21 21" src="https://user-images.githubusercontent.com/103010985/192697541-f3fb415c-8e88-4a00-a669-579d51088c66.png">
+### 4.2 게시판 (board page) 
+<img width="1099" alt="스크린샷 2022-10-01 오후 2 21 47" src="https://user-images.githubusercontent.com/103010985/193393947-92d5eb51-a4e1-4904-9c9f-40e80a7be1d5.png">
 
-### 4.3 수정 및 삭제하기
-<img width="532" alt="스크린샷 2022-09-28 오후 2 46 44" src="https://user-images.githubusercontent.com/103010985/192697921-f9a2e0c7-7adb-4697-971b-06b7f0095e1d.png">
+### 4.2 게시글 작성하기
+<img width="1092" alt="스크린샷 2022-10-01 오후 2 23 57" src="https://user-images.githubusercontent.com/103010985/193394009-2fd1b4b4-cedd-46f7-87c5-2cf524ce9c24.png">
+
+### 4.2.1 게시글 작성하기 (Session id 없을 시 게시글 작성 안됨, alert login message) 
+<img width="542" alt="스크린샷 2022-10-01 오후 2 30 43" src="https://user-images.githubusercontent.com/103010985/193394182-8439483b-f640-48c6-b4af-136fcd537ca2.png">
+
+### 4.3 게시글 상세 보기 (Session 확인해서 id 일치 하지 않을 시, 수정 및 삭제 buttom이 안뜸)
+<img width="1094" alt="스크린샷 2022-10-01 오후 2 29 32" src="https://user-images.githubusercontent.com/103010985/193394151-1540539b-01fd-4583-965c-3bb9aecb7ffd.png">
+
+
+### 4.3.1 게시글 상세 보기 (Session 확인해서 id 일치할 경우)
+<img width="1091" alt="스크린샷 2022-10-01 오후 2 27 36" src="https://user-images.githubusercontent.com/103010985/193394092-83f37533-a8aa-421a-8a7d-b02fcb93d064.png">
+
 
 ### 4.4 검색하기
-<img width="306" alt="스크린샷 2022-09-28 오후 2 22 17" src="https://user-images.githubusercontent.com/103010985/192698047-8765609d-b566-48c5-a101-3924825ea620.png">
+<img width="1097" alt="스크린샷 2022-10-01 오후 2 32 31" src="https://user-images.githubusercontent.com/103010985/193394253-8ac5b603-8f0b-4ac5-9f71-210b2574f8bd.png">
 
+### 4.5 수정하기
+<img width="1096" alt="스크린샷 2022-10-01 오후 2 33 22" src="https://user-images.githubusercontent.com/103010985/193394280-f8361b2e-bf17-447b-871b-b5dc1ed05b21.png">
 
 
 ### 4.5 board Package
@@ -193,6 +207,8 @@ View를 분리하고 로직들을 올바른 위치에 작성하기까지 생각�
 
 2. 조회 Query 실행 후 ResultSet을 return 하도록 구현 했습니다. ResultSet으로 Data를 가공 및 출력할 때 원하는 Data를 정상적으로 가져올 수 없는 이슈가 발생했습니다. 
 해당 이슈는 ResultSet의 forward only 특징 때문에 발생한 이슈였기에 TYPE_SCROLL_INSENSITIVE 옵션을 추가하여, cursor를 양방향으로 이동할 수 있게하였습니다
+
+3. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
 
 
  
