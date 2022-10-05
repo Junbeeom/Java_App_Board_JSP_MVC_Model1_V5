@@ -57,13 +57,12 @@
 
 
 ### 4.5 board Package
-
-<img width="333" alt="스크린샷 2022-09-28 오후 2 50 47" src="https://user-images.githubusercontent.com/103010985/192698248-8e23b5f0-ee16-4bec-9aec-0894b71d5022.png">
-
+<img width="479" alt="스크린샷 2022-10-05 오후 5 08 11" src="https://user-images.githubusercontent.com/103010985/194011785-191d14ea-435e-4cba-8eb5-6d634d77b029.png">
 
 
-### 4.6 database Package
-<img width="331" alt="스크린샷 2022-09-28 오후 2 51 23" src="https://user-images.githubusercontent.com/103010985/192698376-dd0a25e2-af6d-41af-b8ca-474ae2372f42.png">
+### 4.6 Common Package
+<img width="296" alt="스크린샷 2022-10-05 오후 5 10 40" src="https://user-images.githubusercontent.com/103010985/194012342-e86f1a17-6a50-4813-8538-6f4a0dc2d11d.png">
+
 
 ### 4.7 Swing view Package
 <img width="934" alt="스크린샷 2022-09-28 오후 2 59 38" src="https://user-images.githubusercontent.com/103010985/192699678-a9633a72-cd2b-45aa-998d-453627fdcf7b.png">
