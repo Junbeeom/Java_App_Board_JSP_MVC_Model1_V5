@@ -204,19 +204,17 @@ public void actionPerformed(ActionEvent e) {
 
 # 7.회고
 
-### Java_App_Board_Swing_v4
+### Java_App_Board_JSP_MVC_Model1_V5
 
-1. 해당 프로젝트에선 코드를 효율적으로 관리하고자 MVC 패턴에 대해서 학습하게 되었습니다. 학습한 내용을 현재 구현 가능한 수준에서 간단하게 학습하기 위해 Swing 이용하여 GUI를 구현하여 View로 구분했습니다.
-View를 분리하고 로직들을 올바른 위치에 작성하기까지 생각보다 많은 시간이 소요되었습니다. 하지만 이러한 시간을 통해 디자인 패턴에 대한 이해도가 높아진 계기가 되었습니다.
+1. Model View Controller, MVC1 디자인 패턴을 고려하여 Model은 Java Bean으로 구현하고 d/ JSP로 구현한 게시판 어플리케이션은 MVC Model1 구조로 웹 브라우저의 요청을 JSP페이지가 받아서
+처리하는 구조이다. Model은 Java Bean이 처리를 하고, Controller와 Service가 명확히 구분이 되어 있지 않아 설계상 ~
 
-
-2. 조회 Query 실행 후 ResultSet을 return 하도록 구현 했습니다. ResultSet으로 Data를 가공 및 출력할 때 원하는 Data를 정상적으로 가져올 수 없는 이슈가 발생했습니다. 
-해당 이슈는 ResultSet의 forward only 특징 때문에 발생한 이슈였기에 TYPE_SCROLL_INSENSITIVE 옵션을 추가하여, cursor를 양방향으로 이동할 수 있게하였습니다
+2. html의 head, nav의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
 
 3. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
 
+4. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인시 null 값을 체크 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고, null값과 각 타입을 체크 할 수 있는 공통함수를 개발했습니다.
 
- 
 
 
 
