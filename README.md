@@ -8,8 +8,7 @@
 #### 1.2.1 Java_App_Board_JSP_MVC_Model1_V5
 - MVC1 pattern의 이해 및 적용
 - 모듈화를 통한 html 구조 이해
-- Session에 대한 이해 및 적용<img width="867" alt="스크린샷 2022-10-07 오후 3 17 41" src="https://user-images.githubusercontent.com/103010985/194480553-08a7a33f-f4e5-4000-9a0e-4bfae7c17d97.png">
-
+- Session에 대한 이해 및 적용
 - 회원가입시 input값 유효성 검사
 - 비동기 JavaScript ajax를 사용한 id 중복 check 구현
 - 단방향 암호화인 SHA-256 알고리즘을 이용한 PassWord 암호화
@@ -83,8 +82,6 @@
 ### 6.1 로그인시 null 체크 : onclick 속성으로 이벤트를  event
 <img width="1059" alt="스크린샷 2022-10-07 오후 3 18 22" src="https://user-images.githubusercontent.com/103010985/194480650-4edb8738-1b73-4f58-81fd-41873d4167d4.png">
 
-
-
 ```JavaScript     
 document.addEventListener('DOMContentLoaded', () => {
     SIGN_IN.init();
@@ -119,65 +116,151 @@ const SIGN_IN = {
     }
 };
         
-//수정 actionPerformed
-@Override
-public void actionPerformed(ActionEvent e) {
-    Common common = new Common();
+```
 
-    //제목 유효성 검사
-    userTitle = tittleArea.getText();
-    if(!common.validation(Common.BOARD_TITLE, userTitle)) {
-        while(true) {
-            userTitle = JOptionPane.showInputDialog(null, "제목은 12글자 이하로 입력해야 합니다.\n다시 입력하세요.", "");
+### 6.2 회원가입시 유효성 체크
+```JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    SIGN_UP.init();
+});
 
-            if(common.validation(Common.BOARD_TITLE, userTitle)) {
-                break;
+const SIGN_UP = {
+    userId: '',
+
+    init: () => {
+        // 중복검사 버튼 이벤트
+        document.getElementById('duplicate').addEventListener('click', () => {
+            SIGN_UP.duplicate();
+        });
+
+        // 성별 버튼 이벤트
+        document.querySelectorAll('[name="sex"]').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                document.querySelectorAll('.btn-group label').forEach((temp) => {
+                    temp.classList.remove('active');
+                });
+
+                event.target.closest('label').classList.add('active');
+            })
+        });
+
+        // 회원가입 버튼 이벤트
+        document.getElementById('signUp').addEventListener('click', (event) => {
+            event.preventDefault();
+
+            SIGN_UP.validation();
+        });
+
+        // 이전페이지로 버튼 이벤트
+        document.getElementById('prev').addEventListener('click', () => {
+            history.back();
+        });
+    },
+
+    validation: () => {
+        let id = document.querySelector('input[name="id"]');
+        let duplicate = document.querySelector('input[name="hidDuplicate"]');
+        let pw = document.querySelector('input[name="pw"]');
+        let name = document.querySelector('input[name="name"]');
+        let birthdate = document.querySelector('input[name="birthdate"]');
+        let phone = document.querySelector('input[name="phone"]');
+
+        if(duplicate.value == 'F' || COMMON.isEmpty(SIGN_UP.userId) || SIGN_UP.userId !== id) {
+            alert('아이디 중복검사를 해주세요.');
+            duplicate.focus();
+            return false;
+        }
+
+        let idRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+        if(COMMON.isEmpty(id.value.trim()) || id.length > 30 || !idRegExp.test(id.value)) {
+            alert("아이디를 확인해주세요.\n최대 30자까지 입력 가능합니다.")
+            id.focus();
+            return false;
+        }
+
+        //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
+        let pwRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+        if (COMMON.isEmpty(pw.value.trim()) || !pwRegExp.test(pw.value) || pw.value.length > 25) {
+            alert("비밀번호를 확인해주세요.\n최대 25자까지 입력 가능합니다.");
+            pw.focus();
+            return false;
+        }
+
+        // 이름 정규표현식
+        let nameRegExp = /^[ㄱ-ㅎ가-힣]+$/;
+        if (COMMON.isEmpty(name.value) || !nameRegExp.test(name.value)) {
+            alert("이름을 확인해주세요.");
+            name.focus();
+            return false;
+        }
+
+        // 생년월일 정규식
+        let birthdateRegExp = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
+        if (COMMON.isEmpty(birthdate.value) || !birthdateRegExp.test(birthdate.value)) {
+            alert("생년월일을 확인해주세요.");
+            birthdate.focus();
+            return false;
+        }
+
+        // 성별 체크
+        let sexResult = false;
+        let sex = document.querySelectorAll('input[name="sex"]');
+
+        sex.forEach((btn) => {
+            if(btn.checked) {
+                sexResult = true;
             }
+        });
+
+        if(!sexResult) {
+            alert('성별을 확인해주세요.');
+            return false;
         }
-    }
-    userContent = contentArea.getText();
 
-    //내용 유효성 검사
-    if(!common.validation(Common.BOARD_CONTENT, userContent)) {
-        while(true) {
-            userContent = JOptionPane.showInputDialog(null, "내용은 200자 이하로 작성할 수 있습니다.\n글자수에 맞게 다시 작성하세요", "");
-
-            if(common.validation(Common.BOARD_CONTENT, userContent)) {
-                break;
-            }
+        // 핸드폰 번호 정규식
+        let phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+        if (COMMON.isEmpty(phone.value) || !phoneRegExp.test(phone.value)) {
+            alert("핸드폰 번호를 입력하세요");
+            phone.focus();
+            return false;
         }
-    }
-    userName = nameArea.getText();
 
-    //이름 유효성 검사
-    if(!common.validation(Common.BOARD_NAME, userName)) {
-        while(true) {
-            userName = JOptionPane.showInputDialog(null, "이름을 올바른 형식으로 입력하세요\n한글 및 영어만 가능합니다.", "");
+        document.querySelector('input[name="id"]').value = hex_sha512(id.value);
 
-            if(common.validation(Common.BOARD_NAME, userName)) {
-                break;
-            }
+        document.getElementById('frmJoin').submit();
+    },
+
+    duplicate: () => {
+        let id = document.querySelector('input[name="id"]');
+        let idRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+        if(COMMON.isEmpty(id.value.trim()) || id.value.length > 30 || !idRegExp.test(id.value)) {
+            alert("아이디를 확인해주세요.\n최대 30자까지 입력 가능합니다.")
+            id.focus();
+            return false;
         }
-    }
-    try {
-        int result = boardService.modified(num, userTitle, userContent, userName);
 
-        if(result == 1) {
-            JOptionPane.showMessageDialog(null, "수정이 완료되었습니다", "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            new View().revalidate();
-            new View().repaint();
-        } else {
-            JOptionPane.showMessageDialog(null, "수정에 실패하였습니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-            updatedFrame.dispose();
-            new View().revalidate();
-            new View().repaint();
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        let cryptId = hex_sha512(id.value);
+
+        fetch('./duplicate.jsp?id=' + cryptId, {
+            method: 'GET',
+            headers: {'Content-Type': 'text/html'},
+        }).then((res) => {
+            res.text().then((result) => {
+                if(result.trim() == 'approve') {
+                    SIGN_UP.userId = id.value;
+                    document.getElementsByName('hidDuplicate').value = 'T';
+                    document.getElementById('duplicateResult').innerHTML = `<b style="color:blue">사용가능한 아이디입니다.</b>`;
+                } else {
+                    SIGN_UP.userId = '';
+                    document.getElementsByName('hidDuplicate').value = 'F';
+                    document.getElementById('duplicateResult').innerHTML = `<b style="color:red">사용중인 아이디입니다.</b>`;
+                }
+            });
+        }).catch((error) => {
+            alert('중복확인 요청을 실패하였습니다.')
+        })
     }
-    setVisible(false);
-}
+};
 ```
 
 
@@ -190,11 +273,16 @@ public void actionPerformed(ActionEvent e) {
 
 2. html의 head, nav, footer의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
 
-3. 로그인시 생성한 세션의 정보를 통해 case별로 nav의 dropdown  
+3. 로그인시 생성한 세션의 정보를 통해 case별 nav의 dropdown의 관리를 통해 효율성과 유지보수성을 높이고, 세션이 생성되지 않은 경우 강제 url이동 및 button 클릭시 login 화면으로 redirect 할 수 있도록 구현하였습니다.
 
-3. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
+4. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
 
-4. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인 시점의 null 값 체크, 회원가입시 id 중복 체크, 유효성 검증을 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고 유효성을 검증 할 수 있는 공통함수를 개발했습니다.
+5. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인 시점의 null 값 체크, 회원가입시 id 중복 체크, 유효성 검증을 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고 id 중복 체크를 한 후, 제출전 아이디 값 변경을 하게되면 alert 형태의 message를 통해 사용자가 다시 중복 체크를 할 수 있게끔 로직을 구현하였습니다. 유효성 검증을 위한 공통함수를 개발하여 효율성을 효율성을 높일 수 있었습니다.
+
+6. JS es6의 내장 라이브러리인 fetch를 활용하여 id 중복확인을 할 수 있도록 구현하였습니다. 
+
+7. 클라이언트 단과 서버 단에서 SHA-512 해시 암호 알고리즘을 적용하였으며, 메모리를 최소한으로 사용하고자 해당 Column의 크기는 SHA512 알고리즘 데이터 길이인 128byte로 설계하였습니다.
+
 
 
 
