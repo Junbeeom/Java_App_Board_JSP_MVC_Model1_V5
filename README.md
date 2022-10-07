@@ -11,7 +11,7 @@
 - Session에 대한 이해 및 적용
 - 회원가입시 input값 유효성 검사
 - 비동기 JavaScript ajax를 사용한 id 중복 check 구현
-- 단방향 암호화인 SHA-256 알고리즘을 이용한 PassWord 암호화
+- 단방향 암호화인 SHA-512 알고리즘을 이용한 PassWord 암호화
 
 
 
