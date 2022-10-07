@@ -6,11 +6,10 @@
 <%@ page import="board.Board" %>
 <%@ page import="common.Common" %>
 
-<!DOCTYPE html>
-<html>
+
 <jsp:include page="../common/head.jsp"/>
-<body>
-<jsp:include page="../common/navLogin.jsp"/>
+<jsp:include page="../common/nav.jsp"/>
+
 <%
     String userID = null;
     if(session.getAttribute("id") != null) {
@@ -76,7 +75,4 @@
         %>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="../js/bootstrap.js"></script>
-</body>
-</html>
+<jsp:include page="../common/footer.jsp"/>

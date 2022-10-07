@@ -24,11 +24,9 @@
     UserDAO userDAO = new UserDAO();
     int result = userDAO.login(user.getId(), user.getPw());
     if(result == 1){
-        session.setAttribute("id",user.getId());
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("location.href = 'main.jsp'");
-        script.println("</script>");
+        session.setAttribute("id", user.getId());
+
+        response.sendRedirect("./main.jsp");
     }
     else if(result == 0){
         PrintWriter script = response.getWriter();
@@ -41,7 +39,7 @@
         PrintWriter script = response.getWriter();
         script.println("<script>");
         script.println("alert('존재하지 않는 아이디입니다.')");
-        script.println("history.back()");    
+        script.println("history.back()");
         script.println("</script>");
     }
     else if(result == -2){

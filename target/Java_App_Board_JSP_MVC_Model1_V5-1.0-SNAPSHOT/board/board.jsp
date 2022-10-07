@@ -5,11 +5,16 @@
 <%@ page import="board.Board" %>
 <%@ page import="common.Common" %>
 
-<!DOCTYPE html>
-<html>
+<%
+    if(session.getAttribute("id") == null) {
+        response.sendRedirect("../login/login.jsp");
+    }
+%>
+
 <jsp:include page="../common/head.jsp"/>
-<body>
-<jsp:include page="../common/navLogin.jsp"/>
+<jsp:include page="../common/nav.jsp"/>
+
+
 <form id="searchForm" action="./board.jsp" method="get" onsubmit="return searchBoard();">
     <div class="container">
         <div class="row">
@@ -74,7 +79,4 @@
         <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="../js/bootstrap.js"></script>
-</body>
-</html>
+<jsp:include page="../common/footer.jsp"/>

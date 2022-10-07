@@ -9,7 +9,6 @@ public class BoardDAO {
     private PreparedStatement pstmt;
 
     public BoardDAO() {
-
         try {
             String dbUrl = "jdbc:mysql://localhost:3306/Board";
             String dbId = "root";
@@ -57,7 +56,7 @@ public class BoardDAO {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()) {
                 Board board = new Board();
                 board.setBoardNo(rs.getInt("board_no"));
                 board.setTitle(rs.getString("title"));
@@ -177,7 +176,7 @@ public class BoardDAO {
                 rs = pstmt.executeQuery();
             }
 
-            while (rs.next()) {
+            while(rs.next()) {
                 Board board = new Board();
                 board.setBoardNo(rs.getInt("board_no"));
                 board.setTitle(rs.getString("title"));

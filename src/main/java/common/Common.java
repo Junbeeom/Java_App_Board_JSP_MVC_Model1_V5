@@ -16,12 +16,12 @@ public class Common {
     public static final String BOARD_TITLE = "title";
     public static final String BOARD_CONTENT = "content";
 
-
     public int userValidation(String type, String value) {
         switch(type) {
             case USER_ID :
                 //이메일 형식 정규식
                 String id = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
+
                 if(!(value.matches(id))) {
                     return 0;
                 }
@@ -30,6 +30,7 @@ public class Common {
             case USER_PW :
                 //영문자+숫자+특수조합(8~25자리 입력)
                 String pw = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$";
+
                 if(!(value.matches(pw))) {
                     return 0;
                 }
@@ -123,9 +124,9 @@ public class Common {
         public boolean isEmptyValue2(T value) {
             if(value.equals(0) || value.equals('0')) {
                 return true;
-            } else if (value.equals(true) || value.equals(false)) {
-                return (boolean) value;
-            } else if (value != null && value.equals(' ') == false) {
+            } else if(value.equals(true) || value.equals(false)) {
+                return(boolean) value;
+            } else if(value != null && value.equals(' ') == false) {
                 if((value instanceof String && ((String) value).length() > 0) || (value instanceof Number)  || (value instanceof Method)) {
                     return false;
                 } else {
@@ -163,6 +164,4 @@ public class Common {
 
         return  value;
     }
-
-
 }

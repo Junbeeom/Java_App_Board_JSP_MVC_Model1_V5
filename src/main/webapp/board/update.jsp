@@ -4,11 +4,9 @@
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.Board" %>
 
-<!DOCTYPE html>
-<html>
 <jsp:include page="../common/head.jsp"/>
-<body>
-<jsp:include page="../common/navLogin.jsp"/>
+<jsp:include page="../common/nav.jsp"/>
+
 <%
     String userID = null;
     if(session.getAttribute("id") != null) {
@@ -43,29 +41,26 @@
         script.println("</script>");
     }
 %>
-<div class="container">
-    <div class="row">
-        <form id="updateForm" name="updateForm" method="post" action="updateAction.jsp?boardNo=<%= boardNo %>">
-            <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
-                <thead>
-                <tr>
-                    <th colspan="2" style="background-color:#eeeeee; text-align:center;">게시판 글 수정 양식</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" value="<%=byNo.getTitle()%>" ></td>
-                </tr>
-                <tr>
-                    <td><textarea class="form-control" placeholder="글 내용" id="content" name="content" maxlength="2048" style="height:350px" ><%=byNo.getContent()%></textarea></td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="submit"  class="btn btn-primary pull-right" value="수정하기">
-        </form>
+    <div class="container">
+        <div class="row">
+            <form id="updateForm" name="updateForm" method="post" action="updateAction.jsp?boardNo=<%= boardNo %>">
+                <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+                    <thead>
+                    <tr>
+                        <th colspan="2" style="background-color:#eeeeee; text-align:center;">게시판 글 수정 양식</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" value="<%=byNo.getTitle()%>" ></td>
+                    </tr>
+                    <tr>
+                        <td><textarea class="form-control" placeholder="글 내용" id="content" name="content" maxlength="2048" style="height:350px" ><%=byNo.getContent()%></textarea></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit"  class="btn btn-primary pull-right" value="수정하기">
+            </form>
+        </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="../js/bootstrap.js"></script>
-</body>
-</html>
+<jsp:include page="../common/footer.jsp"/>

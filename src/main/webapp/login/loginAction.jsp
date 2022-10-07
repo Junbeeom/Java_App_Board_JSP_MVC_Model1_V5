@@ -24,11 +24,9 @@
     UserDAO userDAO = new UserDAO();
     int result = userDAO.login(user.getId(), user.getPw());
     if(result == 1){
-        session.setAttribute("id",user.getId());
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("location.href = 'main.jsp'");
-        script.println("</script>");
+        session.setAttribute("id", user.getId());
+
+        response.sendRedirect("./main.jsp");
     }
     else if(result == 0){
         PrintWriter script = response.getWriter();

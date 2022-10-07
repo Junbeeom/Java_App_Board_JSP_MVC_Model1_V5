@@ -12,8 +12,11 @@ public class User {
     private String phone;
     private Timestamp createdTs;
     private Timestamp updatedTs;
-    private Timestamp deleted_ts;
+    private Timestamp deletedTs;
     private String isDeleted;
+
+    public User() {
+    }
 
     public int getUser_no() {
         return user_no;
@@ -51,8 +54,8 @@ public class User {
         return updatedTs;
     }
 
-    public Timestamp getDeleted_ts() {
-        return deleted_ts;
+    public Timestamp getDeletedTs() {
+        return deletedTs;
     }
 
     public String getIsDeleted() {
@@ -71,7 +74,7 @@ public class User {
         this.pw = pw;
     }
 
-    public void  setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -95,8 +98,8 @@ public class User {
         this.updatedTs = updatedTs;
     }
 
-    public void setDeleted_ts(Timestamp deleted_ts) {
-        this.deleted_ts = deleted_ts;
+    public void setDeletedTs(Timestamp deletedTs) {
+        this.deletedTs = deletedTs;
     }
 
     public void setIsDeleted(String isDeleted) {

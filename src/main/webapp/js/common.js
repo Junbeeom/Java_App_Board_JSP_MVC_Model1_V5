@@ -1,15 +1,6 @@
 const COMMON = {
-    // 최소 체크
-    // true인 경우 빈값
-    isEmpty1 : (value) => {
-        if(value.trim() === '' || value === undefined || value === null) {
-            return true;
-        }
-        return false;
-    },
-
     // 0은 허용하는 체크
-    isEmpty2 : (value) => {
+    isEmpty : (value) => {
         if(value === 0 || value === '0') {
             return false;
         } else if(value === true || value === false) {
@@ -26,7 +17,7 @@ const COMMON = {
     },
 
     // 0도 허용하지 않는 체크
-    isEmpty3 : (value) => {
+    isEmptyZero : (value) => {
         if(value === 0 || value === '0') {
             return true;
         } else if(value === true || value === false) {
@@ -42,24 +33,9 @@ const COMMON = {
         }
     },
 
-    validation : (value) => {
-        // 단순 빈값만 체크할 경우
-        if(COMMON.isEmpty1(value)) {
-            return false;
-        } else {
-            return true;
-        }
-
-        // 빈값 + 길이 체크
-        if(COMMON.isEmpty1(value) || value.length > 15) {
-            return false;
-        } else {
-            return true;
-        }
-    },
-
+    // XSS 방지
     setRemoveXss : (value) => {
-        if(COMMON.isEmpty2(value)) {
+        if(COMMON.isEmpty(value)) {
             return value;
         } else if(typeof value == 'array') {
             value.forEach((value, index) => {
@@ -95,6 +71,7 @@ const COMMON = {
                     str.push('&apos;');
                 }
             });
+
             return str.join('');
         } else {
             return false;

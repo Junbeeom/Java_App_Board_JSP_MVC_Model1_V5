@@ -11,13 +11,16 @@ public class UserDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
+    private Common common;
 
     public UserDAO() {
         try {
             String dbUrl = "jdbc:mysql://localhost:3306/Board";
             String dbId = "root";
             String dbPasswowrd = "26905031";
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            common = new Common();
 
             conn = DriverManager.getConnection(dbUrl, dbId, dbPasswowrd);
         } catch(Exception e) {
@@ -26,7 +29,6 @@ public class UserDAO {
     }
 
     public int login(String userId, String userPassword) throws SQLException{
-        Common common = new Common();
         String SQL = "SELECT pw FROM member WHERE id = ?";
 
         try {
@@ -44,7 +46,7 @@ public class UserDAO {
             }
             //아이디 없음
             return -1;
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         } finally {
             if(pstmt != null) {
@@ -59,7 +61,6 @@ public class UserDAO {
     }
 
     public int join(User user) throws SQLException{
-        Common common = new Common();
 
         String SQL = "INSERT INTO member(id, pw, name, birthdate, sex, phone) VALUES (?, ?, ?, ?, ?, ?)";
         try {
@@ -87,5 +88,30 @@ public class UserDAO {
         }
         // 데이터베이스 오류
         return -1;
+    }
+
+    // 아이디 중복 체크
+    public boolean duplicate(String id) throws SQLException {
+        String SQL = "SELECT id FROM member WHERE id = ?";
+
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+
+            while(!rs.next()) {
+                //중복된 아이디가 없으면 true
+                return true;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) { rs.close(); }
+            if(pstmt != null) { pstmt.close(); }
+            if(conn != null) { conn.close(); }
+        }
+
+        // 중복된 아이디가 있으면 false
+        return false;
     }
 }
