@@ -8,10 +8,12 @@
 #### 1.2.1 Java_App_Board_JSP_MVC_Model1_V5
 - MVC1 pattern의 이해 및 적용
 - 모듈화를 통한 html 구조 이해
-- Session에 대한 이해 및 적용
+- Session에 대한 이해 및 적용<img width="867" alt="스크린샷 2022-10-07 오후 3 17 41" src="https://user-images.githubusercontent.com/103010985/194480553-08a7a33f-f4e5-4000-9a0e-4bfae7c17d97.png">
+
 - 회원가입시 input값 유효성 검사
 - 비동기 JavaScript ajax를 사용한 id 중복 check 구현
 - 단방향 암호화인 SHA-256 알고리즘을 이용한 PassWord 암호화
+
 
 
 # 2. 개발 환경
@@ -57,15 +59,12 @@
 
 
 ### 4.5 board Package
-<img width="479" alt="스크린샷 2022-10-05 오후 5 08 11" src="https://user-images.githubusercontent.com/103010985/194011785-191d14ea-435e-4cba-8eb5-6d634d77b029.png">
+<img width="461" alt="스크린샷 2022-10-07 오후 3 06 31" src="https://user-images.githubusercontent.com/103010985/194479085-6d3566b1-bf7b-4e4b-bf9c-85a2ea5bcf9d.png">
 
 
 ### 4.6 Common Package
-<img width="296" alt="스크린샷 2022-10-05 오후 5 10 40" src="https://user-images.githubusercontent.com/103010985/194012342-e86f1a17-6a50-4813-8538-6f4a0dc2d11d.png">
+<img width="234" alt="스크린샷 2022-10-07 오후 3 08 38" src="https://user-images.githubusercontent.com/103010985/194479356-432e77a6-c97b-42d2-a100-01e6f502a35a.png">
 
-
-### 4.7 Swing view Package
-<img width="934" alt="스크린샷 2022-09-28 오후 2 59 38" src="https://user-images.githubusercontent.com/103010985/192699678-a9633a72-cd2b-45aa-998d-453627fdcf7b.png">
 
 # 5.기본 기능
 - 등록 registered 
@@ -74,71 +73,51 @@
 - 수정 modified
 - 삭제 deleted
 
+## 5.1 
+- 로그인
+- 회원가입
 
 
 # 6.핵심 기능
 
-### 6.1 게시글 등록, 수정 data 입력 받을 시 유효성 체크
-<img width="456" alt="스크린샷 2022-09-28 오후 3 03 37" src="https://user-images.githubusercontent.com/103010985/192700162-accbc3ae-01e6-46b4-b306-fd52f68c60a6.png">
+### 6.1 로그인시 null 체크 : onclick 속성으로 이벤트를  event
+<img width="1059" alt="스크린샷 2022-10-07 오후 3 18 22" src="https://user-images.githubusercontent.com/103010985/194480650-4edb8738-1b73-4f58-81fd-41873d4167d4.png">
 
 
-```java      
-//등록 actionPerformed
-@Override
-public void actionPerformed(ActionEvent e) {
 
-    //제목 유효성 검사
-    userTitle = tittleArea.getText();
-    if(!common.validation(Common.BOARD_TITLE, userTitle)) {
-        while(true) {
-            userTitle = JOptionPane.showInputDialog(null, "제목은 12글자 이하로 입력해야 합니다.\n다시 입력하세요.", "");
-
-            if(common.validation(Common.BOARD_TITLE, userTitle)) {
-                break;
-            }
-        }
-    }
-    userContent = contentArea.getText();
-
-    //내용 유효성 검사
-    if(!common.validation(Common.BOARD_CONTENT, userContent)) {
-        while(true) {
-            userContent = JOptionPane.showInputDialog(null, "내용은 200자 이하로 작성할 수 있습니다.\n글자수에 맞게 다시 작성하세요", "");
-
-            if(common.validation(Common.BOARD_CONTENT, userContent)) {
-                break;
-            }
-        }
-    }
-    userName = nameArea.getText();
-
-    //이름 유효성 검사
-    if(!common.validation(Common.BOARD_NAME, userName)) {
-        while (true) {
-            userName = JOptionPane.showInputDialog(null, "이름을 올바른 형식으로 입력하세요\n한글 및 영어만 가능합니다.", "");
-
-            if(common.validation(Common.BOARD_NAME, userName)) {
-                break;
-            }
-        }
-    }
-
-    try {
-        int result = boardService.registered(userTitle, userContent, userName);
-
-        if(result == 1) {
-            JOptionPane.showMessageDialog(null, "등록이 완료되었습니다", "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "등록 실패하였습니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch(SQLException ex) {
-        ex.printStackTrace();
-    }
-    createdFrame.dispose();
-    new View();
-}
+```JavaScript     
+document.addEventListener('DOMContentLoaded', () => {
+    SIGN_IN.init();
 });
+
+const SIGN_IN = {
+    init: () => {
+        document.getElementById('btnSignIn').addEventListener('click', (event) => {
+            event.preventDefault();
+
+            SIGN_IN.validation();
+        });
+    },
+
+    validation: () => {
+        let id = document.querySelector('input[name="id"]').value;
+        let pw = document.querySelector('input[name="pw"]').value;
+
+        if(COMMON.isEmpty(id.trim())) {
+            alert('ID EMPTY!');
+            return false;
+        }
+
+        if(COMMON.isEmpty(pw.trim())) {
+            alert('PW EMPTY!');
+            return false;
+        }
+
+        document.querySelector('input[name="id"]').value = hex_sha512(id);
+
+        document.getElementById('SignIn').submit();
+    }
+};
         
 //수정 actionPerformed
 @Override
@@ -206,15 +185,16 @@ public void actionPerformed(ActionEvent e) {
 
 ### Java_App_Board_JSP_MVC_Model1_V5
 
-1. Model View Controller, MVC1 디자인 패턴을 고려하여 Model은 Java Bean으로 구현하고 d/ JSP로 구현한 게시판 어플리케이션은 MVC Model1 구조로 웹 브라우저의 요청을 JSP페이지가 받아서
-처리하는 구조이다. Model은 Java Bean이 처리를 하고, Controller와 Service가 명확히 구분이 되어 있지 않아 설계상 ~
+1. Model View Controller, MVC1 디자인 패턴을 고려하여 Model은 Java Bean으로 구현하고 Controller와 view는 JSP로 구현한 게시판 어플리케이션은 웹 브라우저의 요청을 JSP페이지가 받아서
+처리하는 구조입니다. Controller와 View가 명확히 구분이 되어 있지 않고 Service 로직의 구분점도 모호 했습니다. 프로젝트를 진행하며 MVC2의 Pattern의 Controller의 역할의 중요성과 service 로직의 구분도 필요하다는 것을 알게 되었습니다
 
-2. html의 head, nav의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
+2. html의 head, nav, footer의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
+
+3. 로그인시 생성한 세션의 정보를 통해 case별로 nav의 dropdown  
 
 3. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
 
-4. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인시 null 값을 체크 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고, null값과 각 타입을 체크 할 수 있는 공통함수를 개발했습니다.
-
+4. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인 시점의 null 값 체크, 회원가입시 id 중복 체크, 유효성 검증을 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고 유효성을 검증 할 수 있는 공통함수를 개발했습니다.
 
 
 
