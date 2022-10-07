@@ -200,30 +200,4 @@ public class BoardDAO {
         }
         return searchBoard;
     }
-
-    public int idCheck(String id) throws SQLException{
-        String SQL = "SELECT id FROM member WHERE id = ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1, id);
-            rs = pstmt.executeQuery();
-
-            while(!rs.next()) {
-                //중복된 이름이 없음
-                return 0;
-            }
-
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            if(pstmt != null) {
-                pstmt.close();
-            }
-            if(conn != null) {
-                conn.close();
-            }
-        }
-
-        return -1;
-    }
 }

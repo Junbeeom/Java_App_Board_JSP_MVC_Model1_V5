@@ -1,7 +1,5 @@
 package common;
 
-import com.mysql.cj.x.protobuf.MysqlxExpr;
-
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 
@@ -97,7 +95,6 @@ public class Common {
         return 1;
 
     }
-
 
 /*
     해당 메소드는 다양한 타입의 빈 값을 체크할 수 있는 메소드이다.

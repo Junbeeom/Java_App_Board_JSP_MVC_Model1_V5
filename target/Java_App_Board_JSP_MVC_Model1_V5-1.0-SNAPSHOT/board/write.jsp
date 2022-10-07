@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <jsp:include page="../common/head.jsp"/>
-<jsp:include page="../common/navLogin.jsp"/>
+<jsp:include page="../common/nav.jsp"/>
     <div class="container">
         <div class="row">
             <form method="post" action="writeAction.jsp">
