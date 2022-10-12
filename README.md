@@ -268,20 +268,19 @@ const SIGN_UP = {
 
 ### Java_App_Board_JSP_MVC_Model1_V5
 
-1. Model View Controller, MVC1 디자인 패턴을 고려하여 Model은 Java Bean으로 구현하고 Controller와 view는 JSP로 구현한 게시판 어플리케이션은 웹 브라우저의 요청을 JSP페이지가 받아서
-처리하는 구조입니다. Controller와 View가 명확히 구분이 되어 있지 않고 Service 로직의 구분점도 모호 했습니다. 프로젝트를 진행하며 MVC2의 Pattern의 Controller의 역할의 중요성과 service 로직의 구분도 필요하다는 것을 알게 되었습니다
+1. 해당 프로젝트는 MVC Model1 디자인 패턴에 의거하였으며, MVC Model1과 Model2의 장단점을 직접 경험해보고자 진행한 프로젝트입니다. 또한 모듈화를 통해 유지보수에 용이성을 향상시켰습니다.
+ 
+2. Session을 이용하여 로그인 시 Session에 정보를 저장하고 로그인이 필요한 페이지에 로그인을 하지 않은 상태로 접근하였을 경우 Login Page로 Redirect하도록 했습니다.
 
-2. html의 head, nav, footer의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
+3. JSP에서는 XSS 방지가 되어 있지 않아 특정 문자를 HTML Entity Code로 변환하여 출력할 수 있도록 Recusion형태의 함수를 구현하였으며, 확장성을 고려하여 여러가지 타입의 매개변수가 전달되어도 동작할 수 있도록 구현했습니다.
 
-3. 로그인시 생성한 세션의 정보를 통해 case별 nav의 dropdown의 관리를 통해 효율성과 유지보수성을 높이고, 세션이 생성되지 않은 경우 강제 url이동 및 button 클릭시 login 화면으로 redirect 할 수 있도록 구현하였습니다.
 
 4. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
 
-5. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인 시점의 null 값 체크, 회원가입시 id 중복 체크, 유효성 검증을 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고 id 중복 체크를 한 후, 제출전 아이디 값 변경을 하게되면 alert 형태의 message를 통해 사용자가 다시 중복 체크를 할 수 있게끔 로직을 구현하였습니다. 유효성 검증을 위한 공통함수를 개발하여 효율성을 효율성을 높일 수 있었습니다.
+5. TOAST에서 안티 패턴이라는 글을 읽게 되었고 이벤트를 인라인 방식으로 바인딩 했을 때 유지보수에 좋지 않다는 내용을 보게 되어 DOMContentLoaded 이벤트를 활용하여 이벤트를 바인딩했습니다. 또한 HTML5 Semantic을 지키면서 원하는 동작을 할 수 있도록 submit Type의 버튼은 event 객체의 preventDefault 함수를 사용하였으며, 효율적인 유효성 검증을 하기 위해 공통 함수로 validation 함수를 구현하였습니다.
 
-6. JS es6의 내장 라이브러리인 fetch를 활용하여 id 중복확인을 할 수 있도록 구현하였습니다. 
+6.  공부한 Javascript를 보다 적극적으로 사용하고자 jQuery 라이브러리를 사용하지 않았으며, 비동기 통신을 위해 Fetch API를 이용했습니다. 또한 클라이언트 단과 서버 단에서 SHA256, 512 단방향 암호화를 적용하였으며, 메모리를 최소한으로 사용하고자 암호화 필드의 크기는 각 암호화 데이터 길이로 설계하였습니다.
 
-7. 클라이언트 단과 서버 단에서 SHA-512 해시 암호 알고리즘을 적용하였으며, 메모리를 최소한으로 사용하고자 해당 Column의 크기는 SHA512 알고리즘 데이터 길이인 128byte로 설계하였습니다.
 
 
 
